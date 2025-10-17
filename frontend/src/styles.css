@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  /* Color Palette */
+  --color-dark: #222831;
+  --color-secondary: #393E46;
+  --color-accent: #948979;
+  --color-light: #DFD0B8;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--color-dark);
+  color: var(--color-light);
+}
