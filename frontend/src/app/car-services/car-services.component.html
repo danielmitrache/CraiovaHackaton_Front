@@ -1,0 +1,19 @@
+<div class="services-page">
+  <div class="page-header">
+    <h1>Our Car Services</h1>
+    <p class="subtitle">Professional automotive care you can trust</p>
+  </div>
+
+  <div class="services-container">
+    <div class="service-card" *ngFor="let service of services" (click)="selectService(service)">
+      <div class="service-icon">{{ service.icon }}</div>
+      <h3 class="service-title">{{ service.title }}</h3>
+      <p class="service-description">{{ service.description }}</p>
+      <div class="service-footer">
+        <span class="service-price">{{ service.price }}</span>
+        <button class="book-btn">Book Now</button>
+      </div>
+    </div>
+  </div>
+</div>
+
