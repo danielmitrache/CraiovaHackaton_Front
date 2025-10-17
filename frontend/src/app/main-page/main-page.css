@@ -1,0 +1,455 @@
+/* ========================================
+   MAIN PAGE COMPONENT STYLES
+   ======================================== */
+
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Layout Structure */
+.landing-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, var(--color-dark) 0%, #1a1f26 50%, var(--color-secondary) 100%);
+}
+
+/* ========================================
+   NAVIGATION BAR
+   ======================================== */
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px;
+  background: rgba(57, 62, 70, 0.7);
+  backdrop-filter: blur(12px);
+  border-bottom: var(--border-subtle);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  transition: all var(--transition-base);
+}
+
+.nav:hover {
+  background: rgba(57, 62, 70, 0.85);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.logo {
+  color: var(--color-accent);
+  filter: drop-shadow(0 0 10px rgba(148, 137, 121, 0.4));
+  transition: transform var(--transition-fast);
+}
+
+.logo:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.title {
+  font-weight: var(--font-bold);
+  font-size: var(--font-lg);
+  letter-spacing: -0.01em;
+  color: var(--color-light);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* Navigation Buttons */
+.icon-btn,
+.user-btn {
+  background: transparent;
+  border-radius: var(--radius-md);
+  border: var(--border-subtle);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: var(--font-sm);
+  font-family: inherit;
+}
+
+.icon-btn {
+  padding: 8px 12px;
+}
+
+.icon-btn:hover {
+  background: rgba(148, 137, 121, 0.15);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.icon-btn .icon {
+  font-size: var(--font-lg);
+  font-weight: var(--font-bold);
+}
+
+.user-btn {
+  padding: 6px 14px;
+  border-color: var(--color-accent);
+}
+
+.user-btn:hover {
+  background: rgba(148, 137, 121, 0.2);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-1px);
+}
+
+.user-btn svg {
+  color: var(--color-accent);
+}
+
+.user-name {
+  color: var(--color-light);
+  font-weight: var(--font-semibold);
+}
+
+/* ========================================
+   HERO SECTION
+   ======================================== */
+
+.hero {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3xl) var(--space-md);
+}
+
+.card {
+  max-width: 1100px;
+  width: 100%;
+  background: linear-gradient(135deg, rgba(57, 62, 70, 0.95) 0%, rgba(45, 51, 59, 0.9) 100%);
+  box-shadow: var(--shadow-xl);
+  padding: var(--space-2xl) 48px;
+  border-radius: var(--radius-xl);
+  border: var(--border-medium);
+  backdrop-filter: blur(10px);
+  transition: all var(--transition-slow);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-xl), var(--shadow-accent);
+}
+
+/* Badge Container */
+.badge-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-lg);
+  justify-content: center;
+}
+
+.badge {
+  display: inline-block;
+  background: linear-gradient(90deg, rgba(148, 137, 121, 0.25), rgba(148, 137, 121, 0.15));
+  color: var(--color-accent);
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-sm);
+  font-weight: var(--font-semibold);
+  border: 1px solid rgba(148, 137, 121, 0.3);
+  transition: all var(--transition-fast);
+}
+
+.badge:hover {
+  background: linear-gradient(90deg, rgba(148, 137, 121, 0.35), rgba(148, 137, 121, 0.25));
+  transform: translateY(-2px);
+}
+
+/* Hero Title */
+.hero-title {
+  margin: 0 0 var(--space-lg);
+  font-size: var(--font-3xl);
+  line-height: 1.2;
+  font-weight: var(--font-extrabold);
+  letter-spacing: -0.02em;
+  color: var(--color-light);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+
+/* Lead Paragraph */
+.lead {
+  margin: 0 0 var(--space-2xl);
+  color: var(--color-text-secondary);
+  font-size: var(--font-lg);
+  line-height: 1.7;
+  text-align: center;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.lead strong {
+  color: var(--color-accent);
+  font-weight: var(--font-bold);
+}
+
+.lead em {
+  font-style: italic;
+  color: var(--color-light);
+}
+
+/* ========================================
+   CONCEPT CARDS GRID
+   ======================================== */
+
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
+  margin-bottom: var(--space-2xl);
+}
+
+.concept-card {
+  background: linear-gradient(135deg, rgba(57, 62, 70, 0.7), rgba(34, 40, 49, 0.7));
+  border: var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.concept-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light));
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.concept-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-accent);
+  background: linear-gradient(135deg, rgba(57, 62, 70, 0.85), rgba(34, 40, 49, 0.85));
+}
+
+.concept-card:hover::before {
+  opacity: 1;
+}
+
+.concept-icon {
+  font-size: 3rem;
+  margin-bottom: var(--space-md);
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+  display: block;
+}
+
+.concept-title {
+  font-size: var(--font-lg);
+  font-weight: var(--font-bold);
+  margin-bottom: var(--space-sm);
+  color: var(--color-light);
+}
+
+.concept-desc {
+  font-size: var(--font-base);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* ========================================
+   CTA BUTTONS
+   ======================================== */
+
+.cta-row {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: 16px 32px;
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  border: 2px solid transparent;
+  font-weight: var(--font-semibold);
+  font-size: var(--font-base);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  flex: 1;
+  font-family: inherit;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Primary Button (Left - Make Appointment) */
+.btn-primary {
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light));
+  color: var(--color-dark);
+  box-shadow: var(--shadow-glow);
+  border-color: var(--color-accent);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(148, 137, 121, 0.5);
+  background: linear-gradient(90deg, var(--color-accent-light), var(--color-accent));
+}
+
+.btn-primary:active {
+  transform: translateY(-1px);
+}
+
+/* Outline Button (Right - View Garages) */
+.btn-outline {
+  background: transparent;
+  color: var(--color-light);
+  border-color: var(--color-accent);
+}
+
+.btn-outline:hover {
+  background: rgba(148, 137, 121, 0.15);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-accent-light);
+}
+
+.btn-outline:active {
+  transform: translateY(-1px);
+}
+
+.btn-ic {
+  opacity: 0.9;
+  position: relative;
+  z-index: 1;
+}
+
+/* Micro Text (Pro Tip) */
+.micro {
+  margin-top: var(--space-lg);
+  color: var(--color-text-muted);
+  font-size: var(--font-sm);
+  line-height: 1.6;
+  text-align: center;
+  padding: var(--space-md);
+  background: rgba(148, 137, 121, 0.05);
+  border-radius: var(--radius-md);
+  border: var(--border-subtle);
+}
+
+.micro strong {
+  color: var(--color-accent);
+  font-weight: var(--font-bold);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+  .nav {
+    padding: 14px 20px;
+  }
+
+  .card {
+    padding: var(--space-xl) var(--space-lg);
+    border-radius: var(--radius-lg);
+  }
+
+  .hero-title {
+    font-size: var(--font-2xl);
+  }
+
+  .lead {
+    font-size: var(--font-base);
+  }
+
+  .concept-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .concept-card {
+    padding: var(--space-lg);
+  }
+
+  .cta-row {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 14px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-name,
+  .icon-btn .label {
+    display: none;
+  }
+
+  .badge-container {
+    justify-content: center;
+  }
+
+  .badge {
+    font-size: var(--font-xs);
+    padding: 5px 12px;
+  }
+
+  .hero-title {
+    font-size: var(--font-xl);
+  }
+
+  .lead {
+    font-size: var(--font-sm);
+  }
+
+  .concept-icon {
+    font-size: 2.5rem;
+  }
+
+  .micro {
+    font-size: var(--font-xs);
+    padding: var(--space-sm);
+  }
+}
+
