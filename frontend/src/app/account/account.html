@@ -1,0 +1,24 @@
+<div class="account-container">
+  <div class="header">
+    <h1>My Cars</h1>
+    <button class="btn-add" (click)="addNewCar()">+ Add New Car</button>
+  </div>
+
+  <div class="cars-list" *ngIf="cars.length > 0">
+    <div class="car-row" *ngFor="let car of cars">
+      <div class="car-info">
+        <h2 class="car-brand">{{ car.brand }}</h2>
+        <div class="car-details">
+          <span class="detail-item"><strong>Model:</strong> {{ car.model }}</span>
+          <span class="detail-item"><strong>Motorizare:</strong> {{ car.motorizare }}</span>
+          <span class="detail-item"><strong>Year:</strong> {{ car.year }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="cars.length === 0">
+    <p>You have no cars yet</p>
+  </div>
+</div>
+
