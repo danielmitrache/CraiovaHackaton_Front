@@ -19,10 +19,22 @@
   width: 100%;
 }
 
-.page-header {
-  text-align: center;
+/* ========================================
+   PAGE TOP ROW - HEADER & FILTER
+   ======================================== */
+
+.page-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-2xl);
   margin-bottom: var(--space-2xl);
   padding: var(--space-xl) 0;
+}
+
+.page-header {
+  flex: 1;
+  text-align: left;
 }
 
 .page-header h1 {
@@ -44,9 +56,8 @@
    ======================================== */
 
 .filter-section {
-  margin-bottom: var(--space-2xl);
-  display: flex;
-  justify-content: center;
+  flex-shrink: 0;
+  width: 400px;
 }
 
 .filter-container {
@@ -54,8 +65,6 @@
   border: var(--border-medium);
   border-radius: var(--radius-lg);
   padding: var(--space-xl);
-  max-width: 600px;
-  width: 100%;
   box-shadow: var(--shadow-lg);
 }
 
@@ -177,12 +186,12 @@
 }
 
 /* ========================================
-   SELLERS GRID
+   SELLERS GRID - 2 COLUMNS
    ======================================== */
 
 .sellers-container {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-lg);
   margin-bottom: var(--space-2xl);
 }
@@ -364,27 +373,18 @@
    RESPONSIVE DESIGN
    ======================================== */
 
-@media (max-width: 1400px) {
-  .sellers-container {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media (max-width: 1200px) {
-  .sellers-container {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 900px) {
-  .sellers-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 @media (max-width: 768px) {
   .services-page {
     padding: var(--space-xl) var(--space-md);
+  }
+
+  .page-top-row {
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .page-header {
+    text-align: center;
   }
 
   .page-header h1 {
@@ -393,6 +393,10 @@
 
   .subtitle {
     font-size: var(--font-base);
+  }
+
+  .filter-section {
+    width: 100%;
   }
 
   .sellers-container {

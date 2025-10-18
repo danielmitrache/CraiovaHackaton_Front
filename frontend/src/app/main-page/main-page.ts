@@ -20,17 +20,17 @@ export class MainPageComponent {
   // Concept cards data showcasing the app's value propositions
   concepts = [
     {
-      icon: '🎯',
+      icon: '',
       title: 'Real-time Price Comparison',
       description: 'See what multiple garages would charge for the same job. No more wondering if you\'re being taken for a ride (literally and financially).'
     },
     {
-      icon: '🛡️',
+      icon: '️',
       title: 'Stop Overpaying Specialists',
       description: 'Get AI-powered estimates before you commit. Know if that "$800 brake job" should really cost $300. Because your wallet has feelings too.'
     },
     {
-      icon: '💎',
+      icon: '',
       title: 'Best Deal for Your Buck',
       description: 'Quality + fair price = happy driver. We match you with garages that won\'t treat your wallet like a piñata at a mechanic\'s birthday party.'
     }
