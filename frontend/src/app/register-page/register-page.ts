@@ -176,7 +176,7 @@ export class RegisterPageComponent {
    * Navigate to login page
    */
   onLogin(): void {
-    console.log('Navigate to login');
+    this.logger.debug('Navigate to login');
     this.router.navigate(['/login']);
   }
 
