@@ -14,6 +14,10 @@ export class HeaderComponent {
 
   constructor(private router: Router) {}
 
+  get isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
   onMoreDetails(): void {
     console.log('⋯ Show more details menu');
     alert('📋 More options coming soon!');
@@ -27,6 +31,11 @@ export class HeaderComponent {
   onRegister(): void {
     console.log('📝 Navigate to register');
     this.router.navigate(['/register']);
+  }
+
+  onMyAccount(): void {
+    console.log('👤 Navigate to account');
+    this.router.navigate(['/account']);
   }
 
   onLogoClick(): void {
