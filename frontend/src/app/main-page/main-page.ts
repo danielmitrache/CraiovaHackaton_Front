@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-page',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './main-page.html',
   styleUrls: ['./main-page.css']
 })
@@ -27,6 +31,8 @@ export class MainPageComponent {
     }
   ];
 
+  constructor(private router: Router) {}
+
   /**
    * Navigate to appointment booking flow
    */
@@ -41,8 +47,7 @@ export class MainPageComponent {
    */
   onViewGarages(): void {
     console.log('🏪 Navigate to garage directory');
-    // TODO: Implement routing to garage list
-    alert('🔍 Loading nearby garages with honest reviews and fair prices...');
+    this.router.navigate(['/services']);
   }
 
   /**
@@ -63,4 +68,3 @@ export class MainPageComponent {
     alert('👤 User profile and settings coming soon!');
   }
 }
-
