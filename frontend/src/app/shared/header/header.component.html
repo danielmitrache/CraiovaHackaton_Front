@@ -9,10 +9,7 @@
   </div>
 
   <nav class="nav-actions" *ngIf="showUserActions">
-    <button class="icon-btn" (click)="onMoreDetails()" aria-label="More details">
-      <span class="icon">⋯</span>
-      <span class="label">More</span>
-    </button>
+
 
     <ng-container *ngIf="!isLoggedIn">
       <button class="user-btn" (click)="onLogin()" aria-label="Login">

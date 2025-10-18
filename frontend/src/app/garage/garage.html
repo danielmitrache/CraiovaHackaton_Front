@@ -1,0 +1,87 @@
+<div class="garage-container">
+  <div class="garage-header">
+    <h1>View Garage Availability</h1>
+    <p>Select your appointment dates</p>
+  </div>
+
+  <div class="calendar-wrapper">
+    <!-- Month/Year Navigation -->
+    <div class="calendar-controls">
+      <button class="nav-button" (click)="previousMonth()">
+        <span>&lt;</span>
+      </button>
+      <div class="month-year-display">
+        <span>{{ months[currentMonth] }} {{ currentYear }}</span>
+      </div>
+      <button class="nav-button" (click)="nextMonth()">
+        <span>&gt;</span>
+      </button>
+    </div>
+
+    <!-- Calendar Grid -->
+    <div class="calendar">
+      <!-- Week Days Header -->
+      <div class="weekdays">
+        <div class="weekday" *ngFor="let day of weekDays">{{ day }}</div>
+      </div>
+
+      <!-- Calendar Days -->
+      <div class="calendar-days">
+        <div
+          *ngFor="let calendarDay of calendarDays"
+          class="calendar-day"
+          [class.other-month]="!calendarDay.isCurrentMonth"
+          [class.occupied]="calendarDay.isOccupied"
+          [class.selected]="calendarDay.isSelected"
+          [class.in-range]="calendarDay.isInRange"
+          [class.disabled]="calendarDay.isOccupied"
+          (click)="selectDay(calendarDay)">
+          {{ calendarDay.day }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+      <div class="legend-item">
+        <span class="legend-color occupied-color"></span>
+        <span>Occupied</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color free-color"></span>
+        <span>Available</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color selected-color"></span>
+        <span>Selected Range</span>
+      </div>
+    </div>
+
+    <!-- Appointment Details -->
+    <div class="appointment-details">
+      <div class="detail-row">
+        <label for="numberDays">Number of Days:</label>
+        <input
+          type="number"
+          id="numberDays"
+          [(ngModel)]="numberDays"
+          (change)="onNumberDaysChange()"
+          min="1"
+          max="30">
+      </div>
+
+      <div class="detail-row" *ngIf="selectedStartDate">
+        <label>Selected Date:</label>
+        <span class="selected-info">{{ selectedStartDate | date:'fullDate' }}</span>
+      </div>
+
+      <button
+        class="confirm-button"
+        (click)="confirmAppointment()"
+        [disabled]="!selectedStartDate">
+        Confirm Appointment
+      </button>
+    </div>
+  </div>
+</div>
+
