@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class MainPageComponent {
   userName = 'Guest';
+  isLoggedIn = false;
 
   // Concept cards data showcasing the app's value propositions
   concepts = [
@@ -64,7 +65,28 @@ export class MainPageComponent {
    */
   onUserProfile(): void {
     console.log('👤 Navigate to user profile');
-    // TODO: Implement routing to profile page
-    alert('👤 User profile and settings coming soon!');
+    if (this.isLoggedIn) {
+
+      alert('👤 User profile and settings coming soon!');
+    } else {
+      // Redirect to login if not logged in
+      this.router.navigate(['/login']);
+    }
+  }
+
+  /**
+   * Navigate to login page
+   */
+  onLogin(): void {
+    console.log('🔑 Navigate to login page');
+    this.router.navigate(['/login']);
+  }
+
+  /**
+   * Navigate to register page
+   */
+  onRegister(): void {
+    console.log('📝 Navigate to register page');
+    this.router.navigate(['/register']);
   }
 }
