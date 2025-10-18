@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   @Input() showUserActions = true;
-  userName = 'Guest';
 
   constructor(private router: Router) {}
 
@@ -20,13 +19,17 @@ export class HeaderComponent {
     alert('📋 More options coming soon!');
   }
 
-  onUserProfile(): void {
-    console.log('👤 Navigate to user profile');
+  onLogin(): void {
+    console.log('👤 Navigate to login');
     this.router.navigate(['/login']);
+  }
+
+  onRegister(): void {
+    console.log('📝 Navigate to register');
+    this.router.navigate(['/register']);
   }
 
   onLogoClick(): void {
     this.router.navigate(['/main-page']);
   }
 }
-

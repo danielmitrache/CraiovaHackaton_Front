@@ -197,6 +197,15 @@ export class RegisterPageComponent {
   }
 
   /**
+   * Show Terms and Conditions
+   */
+  onShowTerms(): void {
+    this.logger.debug('Show terms and conditions');
+    this.toastService.info('Terms and Conditions page coming soon!');
+    // TODO: Implement terms and conditions modal or navigate to terms page
+  }
+
+  /**
    * Navigate back to main page
    */
   onBackToHome(): void {
