@@ -19,8 +19,8 @@ interface Car {
 export class AccountComponent {
   cars: Car[] = [
     // Example data - replace with actual API call
-    // { id: 1, brand: 'BMW', model: 'X5', motorizare: '3.0 Diesel', year: 2022 },
-    // { id: 2, brand: 'Audi', model: 'A4', motorizare: '2.0 TFSI', year: 2021 }
+     { id: 1, brand: 'BMW', model: 'X5', motorizare: '3.0 Diesel', year: 2022 },
+     { id: 2, brand: 'Audi', model: 'A4', motorizare: '2.0 TFSI', year: 2021 }
   ];
 
   addNewCar(): void {

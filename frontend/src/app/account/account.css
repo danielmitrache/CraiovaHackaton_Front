@@ -14,7 +14,14 @@
 .header h1 {
   font-size: 2rem;
   font-weight: 600;
-  color: #333;
+  font-family: Inter, "Helvetica Neue", Arial, system-ui, -apple-system;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  background: linear-gradient(90deg, #0ea5e9 0%, #6366f1 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.6), 0 8px 20px rgba(99,102,241,0.10);
 }
 
 .btn-add {
