@@ -78,7 +78,7 @@ export class AuthService {
         id: 'user-' + Date.now(),
         email: data.email,
         name: 'John Doe',
-        accountType: 'user'
+        accountType: 'user' as 'user' | 'service'
       }
     }).pipe(delay(1500)); // Simulate network delay
   }
@@ -113,4 +113,3 @@ export class AuthService {
     return localStorage.getItem('auth_token');
   }
 }
-
