@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { LoggerService } from '../services/logger.service';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-main-page',
@@ -32,22 +34,25 @@ export class MainPageComponent {
     }
   ];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private logger: LoggerService,
+    private toastService: ToastService
+  ) {}
 
   /**
    * Navigate to appointment booking flow
    */
   onMakeAppointment(): void {
-    console.log('🔧 Navigate to appointment booking');
-    // TODO: Implement routing to appointment flow
-    alert('🚗 Let\'s get your car back in shape! Redirecting to appointment booking...');
+    this.logger.info('Navigate to appointment booking');
+    this.toastService.info('Appointment booking feature coming soon!');
   }
 
   /**
    * Navigate to garage directory/listing
    */
   onViewGarages(): void {
-    console.log('🏪 Navigate to garage directory');
+    this.logger.info('Navigate to garage directory');
     this.router.navigate(['/services']);
   }
 
@@ -55,21 +60,18 @@ export class MainPageComponent {
    * Open more details menu/panel
    */
   onMoreDetails(): void {
-    console.log('⋯ Show more details menu');
-    // TODO: Implement side panel or dropdown menu
-    alert('📋 More options coming soon!');
+    this.logger.info('Show more details menu');
+    this.toastService.info('More options coming soon!');
   }
 
   /**
    * Navigate to user profile page
    */
   onUserProfile(): void {
-    console.log('👤 Navigate to user profile');
+    this.logger.info('Navigate to user profile');
     if (this.isLoggedIn) {
-
-      alert('👤 User profile and settings coming soon!');
+      this.toastService.info('User profile and settings coming soon!');
     } else {
-      // Redirect to login if not logged in
       this.router.navigate(['/login']);
     }
   }
@@ -78,7 +80,7 @@ export class MainPageComponent {
    * Navigate to login page
    */
   onLogin(): void {
-    console.log('🔑 Navigate to login page');
+    this.logger.debug('Navigate to login page');
     this.router.navigate(['/login']);
   }
 
@@ -86,7 +88,7 @@ export class MainPageComponent {
    * Navigate to register page
    */
   onRegister(): void {
-    console.log('📝 Navigate to register page');
+    this.logger.debug('Navigate to register page');
     this.router.navigate(['/register']);
   }
 }

@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { ToastService } from '../services/toast.service';
+import { LoggerService } from '../services/logger.service';
+import { PasswordValidator } from '../utils/password-validator';
 
 @Component({
   selector: 'app-register-page',
@@ -24,8 +28,14 @@ export class RegisterPageComponent {
   showConfirmPassword = false;
   isLoading = false;
   errorMessage = '';
+  passwordStrength = 0;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private toastService: ToastService,
+    private logger: LoggerService
+  ) {}
 
   /**
    * Set account type
@@ -33,20 +43,28 @@ export class RegisterPageComponent {
   setAccountType(type: 'user' | 'service'): void {
     this.accountType = type;
     this.errorMessage = '';
+    this.logger.debug('Account type changed', { type });
   }
 
   /**
-   * Toggle password visibility
+   * Check password strength as user types
    */
-  togglePasswordVisibility(): void {
-    this.showPassword = !this.showPassword;
+  onPasswordChange(): void {
+    this.passwordStrength = PasswordValidator.getStrength(this.password);
   }
 
   /**
-   * Toggle confirm password visibility
+   * Get password strength label
    */
-  toggleConfirmPasswordVisibility(): void {
-    this.showConfirmPassword = !this.showConfirmPassword;
+  getPasswordStrengthLabel(): string {
+    return PasswordValidator.getStrengthLabel(this.passwordStrength);
+  }
+
+  /**
+   * Get password strength color
+   */
+  getPasswordStrengthColor(): string {
+    return PasswordValidator.getStrengthColor(this.passwordStrength);
   }
 
   /**
@@ -73,8 +91,11 @@ export class RegisterPageComponent {
       return;
     }
 
-    if (this.password.length < 6) {
-      this.errorMessage = 'Password must be at least 6 characters long';
+    // Validate password strength
+    const passwordValidation = PasswordValidator.validate(this.password);
+    if (!passwordValidation.valid) {
+      this.errorMessage = passwordValidation.errors[0];
+      this.toastService.error(passwordValidation.errors.join('. '));
       return;
     }
 
@@ -89,23 +110,58 @@ export class RegisterPageComponent {
     }
 
     this.isLoading = true;
+    this.logger.info('Registration attempt started', {
+      accountType: this.accountType,
+      email: this.email
+    });
 
+    // Call authentication service
+    const registerData = {
+      accountType: this.accountType,
+      email: this.email,
+      password: this.password,
+      ...(this.accountType === 'user'
+        ? { fullName: this.fullName }
+        : {
+            serviceName: this.serviceName,
+            serviceCUI: this.serviceCUI,
+            location: this.location
+          }
+      )
+    };
 
-    setTimeout(() => {
-      this.isLoading = false;
-      console.log('Registration attempt:', {
-        accountType: this.accountType,
-        ...(this.accountType === 'user' ? { fullName: this.fullName } : { serviceName: this.serviceName, serviceCUI: this.serviceCUI, location: this.location }),
-        email: this.email
-      });
+    this.authService.register(registerData).subscribe({
+      next: (response) => {
+        this.isLoading = false;
 
-      // Simulate successful registration
-      const message = this.accountType === 'user'
-        ? '🎉 Welcome aboard! Your account has been created.'
-        : '🎉 Welcome! Your service account has been created.';
-      alert(message);
-      this.router.navigate(['/main-page']);
-    }, 1500);
+        if (response.success) {
+          this.logger.info('Registration successful', { email: this.email });
+
+          // Store authentication token
+          if (response.token) {
+            this.authService.storeToken(response.token);
+          }
+
+          // Show success toast
+          this.toastService.success(response.message);
+
+          // Navigate to main page
+          setTimeout(() => {
+            this.router.navigate(['/main-page']);
+          }, 500);
+        } else {
+          this.errorMessage = response.message || 'Registration failed';
+          this.toastService.error(this.errorMessage);
+          this.logger.warn('Registration failed', { reason: response.message });
+        }
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.errorMessage = 'Registration failed. Please try again.';
+        this.toastService.error(this.errorMessage);
+        this.logger.error('Registration error', error);
+      }
+    });
   }
 
   /**

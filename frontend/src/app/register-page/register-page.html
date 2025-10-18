@@ -195,7 +195,8 @@
               id="password"
               name="password"
               [(ngModel)]="password"
-              placeholder="At least 6 characters"
+              (ngModelChange)="onPasswordChange()"
+              placeholder="At least 8 characters"
               class="form-input"
               [disabled]="isLoading"
               required
@@ -216,6 +217,22 @@
                 <line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
               </svg>
             </button>
+          </div>
+          <!-- Password Strength Indicator -->
+          <div class="password-strength" *ngIf="password.length > 0">
+            <div class="strength-bar">
+              <div
+                class="strength-fill"
+                [style.width.%]="(passwordStrength / 4) * 100"
+                [style.background-color]="getPasswordStrengthColor()"
+              ></div>
+            </div>
+            <span
+              class="strength-label"
+              [style.color]="getPasswordStrengthColor()"
+            >
+              {{ getPasswordStrengthLabel() }}
+            </span>
           </div>
         </div>
 
