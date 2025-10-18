@@ -8,9 +8,15 @@
   min-height: 100vh;
 }
 
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 /* Layout Structure */
 .landing-root {
-  min-height: 100vh;
+  flex: 1;
   display: flex;
   flex-direction: column;
   background: linear-gradient(180deg, var(--color-dark) 0%, #1a1f26 50%, var(--color-secondary) 100%);
@@ -452,4 +458,3 @@
     padding: var(--space-sm);
   }
 }
-

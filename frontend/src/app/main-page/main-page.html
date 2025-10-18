@@ -1,90 +1,66 @@
-<div class="landing-root">
-  <!-- Navigation Bar -->
-  <header class="nav">
-    <div class="brand">
-      <!-- Car icon logo -->
-      <svg class="logo" width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <rect x="2" y="8" width="20" height="8" rx="2" fill="currentColor"/>
-        <circle cx="7" cy="17" r="1.8" fill="currentColor"/>
-        <circle cx="17" cy="17" r="1.8" fill="currentColor"/>
-      </svg>
-      <span class="title">BrakePoint</span>
-    </div>
+<div class="page-wrapper">
+  <app-header></app-header>
 
-    <nav class="nav-actions">
-      <!-- More details button -->
-      <button class="icon-btn" (click)="onMoreDetails()" aria-label="More details">
-        <span class="icon">⋯</span>
-        <span class="label">More</span>
-      </button>
-
-      <!-- User profile button -->
-      <button class="user-btn" (click)="onUserProfile()" aria-label="User profile">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" fill="currentColor"/>
-          <path d="M4 20c0-3.3137 2.6863-6 6-6h4c3.3137 0 6 2.6863 6 6" fill="currentColor" opacity="0.9"/>
-        </svg>
-        <span class="user-name">{{ userName }}</span>
-      </button>
-    </nav>
-  </header>
-
-  <!-- Hero Section -->
-  <main class="hero">
-    <div class="card">
-      <!-- Feature badges -->
-      <div class="badge-container">
-        <span class="badge">💰 Fair Pricing</span>
-        <span class="badge">🔧 Trusted Garages</span>
-        <span class="badge">📊 Transparent Estimates</span>
-      </div>
-
-      <!-- Main headline with car humor -->
-      <h1 class="hero-title">
-        Stop paying mechanic rates that make your wallet scream louder than your engine
-      </h1>
-
-      <!-- Introduction paragraph -->
-      <p class="lead">
-        Welcome to <strong>BrakePoint</strong> — where your car's mysterious rattles meet honest estimates.
-        We decode what your mechanic <em>really</em> means when they say "it's gonna be expensive,"
-        compare prices across garages, and help you avoid the dreaded "while we're in there..." upsell spiral.
-      </p>
-
-      <!-- Concept Cards Grid -->
-      <div class="concept-grid">
-        <div class="concept-card" *ngFor="let concept of concepts">
-          <div class="concept-icon">{{ concept.icon }}</div>
-          <h3 class="concept-title">{{ concept.title }}</h3>
-          <p class="concept-desc">{{ concept.description }}</p>
+  <div class="landing-root">
+    <!-- Hero Section -->
+    <main class="hero">
+      <div class="card">
+        <!-- Feature badges -->
+        <div class="badge-container">
+          <span class="badge">💰 Fair Pricing</span>
+          <span class="badge">🔧 Trusted Garages</span>
+          <span class="badge">📊 Transparent Estimates</span>
         </div>
+
+        <!-- Main headline with car humor -->
+        <h1 class="hero-title">
+          Stop paying mechanic rates that make your wallet scream louder than your engine
+        </h1>
+
+        <!-- Introduction paragraph -->
+        <p class="lead">
+          Welcome to <strong>BrakePoint</strong> — where your car's mysterious rattles meet honest estimates.
+          We decode what your mechanic <em>really</em> means when they say "it's gonna be expensive,"
+          compare prices across garages, and help you avoid the dreaded "while we're in there..." upsell spiral.
+        </p>
+
+        <!-- Concept Cards Grid -->
+        <div class="concept-grid">
+          <div class="concept-card" *ngFor="let concept of concepts">
+            <div class="concept-icon">{{ concept.icon }}</div>
+            <h3 class="concept-title">{{ concept.title }}</h3>
+            <p class="concept-desc">{{ concept.description }}</p>
+          </div>
+        </div>
+
+        <!-- Call-to-Action Buttons Row -->
+        <div class="cta-row">
+          <!-- Left button: Make an appointment -->
+          <button class="btn btn-primary" (click)="onMakeAppointment()">
+            <svg class="btn-ic" width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M8 7V3m8 4V3M7 11h10M7 15h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2" fill="none"/>
+            </svg>
+            Make an appointment
+          </button>
+
+          <!-- Right button: View garages -->
+          <button class="btn btn-outline" (click)="onViewGarages()">
+            <svg class="btn-ic" width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M3 11h18M5 7h14M7 15h10M21 11c0 5.5-4 9-9 9s-9-3.5-9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            View garages
+          </button>
+        </div>
+
+        <!-- Pro tip footer -->
+        <p class="micro">
+          💡 <strong>Pro tip:</strong> Get 3 estimates in under 60 seconds. Your future self (and bank account) will high-five you.
+          No grease stains on your keyboard guaranteed. 🧤
+        </p>
       </div>
+    </main>
+  </div>
 
-      <!-- Call-to-Action Buttons Row -->
-      <div class="cta-row">
-        <!-- Left button: Make an appointment -->
-        <button class="btn btn-primary" (click)="onMakeAppointment()">
-          <svg class="btn-ic" width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M8 7V3m8 4V3M7 11h10M7 15h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2" fill="none"/>
-          </svg>
-          Make an appointment
-        </button>
-
-        <!-- Right button: View garages -->
-        <button class="btn btn-outline" (click)="onViewGarages()">
-          <svg class="btn-ic" width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M3 11h18M5 7h14M7 15h10M21 11c0 5.5-4 9-9 9s-9-3.5-9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          View garages
-        </button>
-      </div>
-
-      <!-- Pro tip footer -->
-      <p class="micro">
-        💡 <strong>Pro tip:</strong> Get 3 estimates in under 60 seconds. Your future self (and bank account) will high-five you.
-        No grease stains on your keyboard guaranteed. 🧤
-      </p>
-    </div>
-  </main>
+  <app-footer></app-footer>
 </div>

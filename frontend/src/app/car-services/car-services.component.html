@@ -1,19 +1,116 @@
-<div class="services-page">
-  <div class="page-header">
-    <h1>Our Car Services</h1>
-    <p class="subtitle">Professional automotive care you can trust</p>
-  </div>
+<div class="page-wrapper">
+  <app-header></app-header>
 
-  <div class="services-container">
-    <div class="service-card" *ngFor="let service of services" (click)="selectService(service)">
-      <div class="service-icon">{{ service.icon }}</div>
-      <h3 class="service-title">{{ service.title }}</h3>
-      <p class="service-description">{{ service.description }}</p>
-      <div class="service-footer">
-        <span class="service-price">{{ service.price }}</span>
-        <button class="book-btn">Book Now</button>
+  <div class="services-page">
+    <div class="page-header">
+      <h1>Find Trusted Garages</h1>
+      <p class="subtitle">Connect with certified mechanics who won't treat your wallet like a parts catalog</p>
+    </div>
+
+    <!-- City Filter Section -->
+    <div class="filter-section">
+      <div class="filter-container">
+        <label for="citySearch" class="filter-label">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="10" r="3"/>
+            <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z"/>
+          </svg>
+          Filter by City
+        </label>
+
+        <div class="search-wrapper">
+          <input
+            type="text"
+            id="citySearch"
+            class="city-search"
+            [(ngModel)]="searchCity"
+            (focus)="onInputFocus()"
+            (blur)="onInputBlur()"
+            placeholder="Type city name..."
+          />
+
+          <button
+            *ngIf="selectedCity"
+            class="clear-btn"
+            (click)="clearFilter()"
+            aria-label="Clear filter"
+          >
+            ✕
+          </button>
+
+          <!-- Dropdown -->
+          <div class="city-dropdown" *ngIf="showDropdown && filteredCities.length > 0">
+            <div
+              class="city-option"
+              *ngFor="let city of filteredCities"
+              (click)="selectCity(city)"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="10" r="3"/>
+                <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z"/>
+              </svg>
+              {{ city }}
+            </div>
+          </div>
+
+          <div class="no-results" *ngIf="showDropdown && filteredCities.length === 0">
+            No cities found matching "{{ searchCity }}"
+          </div>
+        </div>
+
+        <div class="filter-info" *ngIf="selectedCity">
+          Showing <strong>{{ filteredSellers.length }}</strong> garages in <strong>{{ selectedCity }}</strong>
+        </div>
+        <div class="filter-info" *ngIf="!selectedCity">
+          Showing <strong>{{ filteredSellers.length }}</strong> garages in all cities
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
+    <!-- Sellers Grid -->
+    <div class="sellers-container">
+      <div class="seller-card" *ngFor="let seller of filteredSellers" (click)="selectSeller(seller)">
+        <div class="seller-profile">
+          <div class="profile-image">{{ seller.profileImage }}</div>
+          <div class="seller-rating">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            {{ seller.rating }}
+          </div>
+        </div>
+
+        <h3 class="seller-name">{{ seller.name }}</h3>
+        <p class="seller-description">{{ seller.description }}</p>
+
+        <div class="seller-footer">
+          <div class="address-info">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="10" r="3"/>
+              <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z"/>
+            </svg>
+            <div class="address-text">
+              <div class="street">{{ seller.streetAddress }}</div>
+              <div class="city">{{ seller.city }}</div>
+            </div>
+          </div>
+          <button class="contact-btn">
+            View Details
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Results Message -->
+    <div class="no-sellers" *ngIf="filteredSellers.length === 0">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M8 15h8M9 9h.01M15 9h.01"/>
+      </svg>
+      <h3>No garages found in {{ selectedCity }}</h3>
+      <p>Try selecting a different city or <a (click)="clearFilter()" style="cursor: pointer; color: var(--color-accent); text-decoration: underline;">view all garages</a></p>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>

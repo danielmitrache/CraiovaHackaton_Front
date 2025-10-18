@@ -1,0 +1,117 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px;
+  background: rgba(57, 62, 70, 0.7);
+  backdrop-filter: blur(12px);
+  border-bottom: var(--border-subtle);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  transition: all var(--transition-base);
+}
+
+.nav:hover {
+  background: rgba(57, 62, 70, 0.85);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  transition: transform var(--transition-fast);
+}
+
+.brand:hover {
+  transform: translateX(4px);
+}
+
+.logo {
+  color: var(--color-accent);
+  filter: drop-shadow(0 0 10px rgba(148, 137, 121, 0.4));
+  transition: transform var(--transition-fast);
+}
+
+.logo:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.title {
+  font-weight: var(--font-bold);
+  font-size: var(--font-lg);
+  letter-spacing: -0.01em;
+  color: var(--color-light);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.icon-btn,
+.user-btn {
+  background: transparent;
+  border-radius: var(--radius-md);
+  border: var(--border-subtle);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: var(--font-sm);
+  font-family: inherit;
+}
+
+.icon-btn {
+  padding: 8px 12px;
+}
+
+.icon-btn:hover {
+  background: rgba(148, 137, 121, 0.15);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.icon-btn .icon {
+  font-size: var(--font-lg);
+  font-weight: var(--font-bold);
+}
+
+.user-btn {
+  padding: 6px 14px;
+  border-color: var(--color-accent);
+}
+
+.user-btn:hover {
+  background: rgba(148, 137, 121, 0.2);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-1px);
+}
+
+.user-btn svg {
+  color: var(--color-accent);
+}
+
+.user-name {
+  color: var(--color-light);
+  font-weight: var(--font-semibold);
+}
+
+@media (max-width: 768px) {
+  .nav {
+    padding: 14px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-name,
+  .icon-btn .label {
+    display: none;
+  }
+}
+
