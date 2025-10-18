@@ -12,8 +12,8 @@ export class FooterComponent {
   currentYear = new Date().getFullYear();
 
   onLinkClick(link: string): void {
-    console.log(`Navigate to: ${link}`);
-    alert(`${link} page coming soon!`);
+    console.log(`Navigate to: ${link} page coming soon!`);
+    // Placeholder: link functionality not yet implemented.
   }
 }
 
