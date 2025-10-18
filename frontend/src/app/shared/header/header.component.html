@@ -1,0 +1,26 @@
+<header class="nav">
+  <div class="brand" (click)="onLogoClick()" style="cursor: pointer;">
+    <svg class="logo" width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="2" y="8" width="20" height="8" rx="2" fill="currentColor"/>
+      <circle cx="7" cy="17" r="1.8" fill="currentColor"/>
+      <circle cx="17" cy="17" r="1.8" fill="currentColor"/>
+    </svg>
+    <span class="title">BrakePoint</span>
+  </div>
+
+  <nav class="nav-actions" *ngIf="showUserActions">
+    <button class="icon-btn" (click)="onMoreDetails()" aria-label="More details">
+      <span class="icon">⋯</span>
+      <span class="label">More</span>
+    </button>
+
+    <button class="user-btn" (click)="onUserProfile()" aria-label="User profile">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" fill="currentColor"/>
+        <path d="M4 20c0-3.3137 2.6863-6 6-6h4c3.3137 0 6 2.6863 6 6" fill="currentColor" opacity="0.9"/>
+      </svg>
+      <span class="user-name">{{ userName }}</span>
+    </button>
+  </nav>
+</header>
+

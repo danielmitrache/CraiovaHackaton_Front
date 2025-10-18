@@ -1,91 +1,246 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from '../shared/header/header.component';
+import { FooterComponent } from '../shared/footer/footer.component';
 
-interface Service {
+interface Seller {
   id: number;
-  title: string;
+  name: string;
   description: string;
-  price: string;
-  icon: string;
+  streetAddress: string;
+  city: string;
+  profileImage: string;
+  rating: number;
 }
 
 @Component({
   selector: 'app-car-services',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent],
   templateUrl: './car-services.component.html',
   styleUrl: './car-services.component.css'
 })
 export class CarServicesComponent {
-  services: Service[] = [
+  searchCity = '';
+  selectedCity = '';
+  showDropdown = false;
+
+  sellers: Seller[] = [
     {
       id: 1,
-      title: 'Oil Change',
-      description: 'Complete oil change service with premium quality oil and filter replacement.',
-      price: '$49.99',
-      icon: '🛢️'
+      name: 'AutoCare Plus',
+      description: 'Premium car repair and maintenance services with certified mechanics and 20+ years of experience.',
+      streetAddress: '123 Main Street',
+      city: 'Craiova',
+      profileImage: '🏪',
+      rating: 4.8
     },
     {
       id: 2,
-      title: 'Brake Service',
-      description: 'Full brake inspection, pad replacement, and rotor resurfacing or replacement.',
-      price: '$129.99',
-      icon: '🔧'
+      name: 'SpeedFix Garage',
+      description: 'Fast and reliable auto repairs specializing in European vehicles and diagnostic services.',
+      streetAddress: '456 Oak Avenue',
+      city: 'Craiova',
+      profileImage: '🔧',
+      rating: 4.6
     },
     {
       id: 3,
-      title: 'Tire Rotation',
-      description: 'Professional tire rotation and balance to ensure even wear and optimal performance.',
-      price: '$39.99',
-      icon: '🚗'
+      name: 'Elite Motors',
+      description: 'Luxury car service center offering premium maintenance and performance upgrades.',
+      streetAddress: '789 Elm Boulevard',
+      city: 'Bucharest',
+      profileImage: '🚗',
+      rating: 4.9
     },
     {
       id: 4,
-      title: 'Engine Diagnostics',
-      description: 'Comprehensive engine diagnostics using advanced computer systems.',
-      price: '$89.99',
-      icon: '⚙️'
+      name: 'Precision Auto',
+      description: 'Expert technicians providing comprehensive automotive solutions and honest pricing.',
+      streetAddress: '321 Pine Road',
+      city: 'Bucharest',
+      profileImage: '⚙️',
+      rating: 4.7
     },
     {
       id: 5,
-      title: 'Air Conditioning',
-      description: 'AC system inspection, recharge, and repair services.',
-      price: '$99.99',
-      icon: '❄️'
+      name: 'QuickFix Auto Shop',
+      description: 'Your neighborhood garage for quick repairs, oil changes, and tire services.',
+      streetAddress: '654 Maple Drive',
+      city: 'Cluj-Napoca',
+      profileImage: '🛠️',
+      rating: 4.5
     },
     {
       id: 6,
-      title: 'Battery Service',
-      description: 'Battery testing, cleaning, and replacement with quality batteries.',
-      price: '$79.99',
-      icon: '🔋'
+      name: 'Master Mechanics',
+      description: 'Professional auto repair with state-of-the-art equipment and warranty on all work.',
+      streetAddress: '987 Cedar Lane',
+      city: 'Cluj-Napoca',
+      profileImage: '👨‍🔧',
+      rating: 4.8
     },
     {
       id: 7,
-      title: 'Transmission Service',
-      description: 'Complete transmission fluid change and system inspection.',
-      price: '$149.99',
-      icon: '⚡'
+      name: 'DriveRight Services',
+      description: 'Complete car care from routine maintenance to complex engine repairs.',
+      streetAddress: '147 Birch Street',
+      city: 'Timișoara',
+      profileImage: '🏎️',
+      rating: 4.6
     },
     {
       id: 8,
-      title: 'Wheel Alignment',
-      description: 'Precision wheel alignment for improved handling and tire life.',
-      price: '$74.99',
-      icon: '🎯'
+      name: 'TurboTech Garage',
+      description: 'Specializing in performance tuning, turbos, and high-performance modifications.',
+      streetAddress: '258 Spruce Avenue',
+      city: 'Timișoara',
+      profileImage: '⚡',
+      rating: 4.9
     },
     {
       id: 9,
-      title: 'General Inspection',
-      description: 'Comprehensive vehicle inspection covering all major systems.',
-      price: '$59.99',
-      icon: '🔍'
+      name: 'Reliable Auto Care',
+      description: 'Family-owned shop providing honest, reliable service for all makes and models.',
+      streetAddress: '369 Willow Court',
+      city: 'Iași',
+      profileImage: '🔩',
+      rating: 4.7
+    },
+    {
+      id: 10,
+      name: 'Premium Car Service',
+      description: 'Upscale automotive care with complimentary loaner cars and express service.',
+      streetAddress: '741 Ash Street',
+      city: 'Iași',
+      profileImage: '💎',
+      rating: 4.8
+    },
+    {
+      id: 11,
+      name: 'City Auto Repair',
+      description: 'Convenient downtown location offering all types of auto repairs and inspections.',
+      streetAddress: '852 Cherry Lane',
+      city: 'Constanța',
+      profileImage: '🏙️',
+      rating: 4.5
+    },
+    {
+      id: 12,
+      name: 'GaragePro Solutions',
+      description: 'Modern facility with advanced diagnostics and eco-friendly repair practices.',
+      streetAddress: '963 Walnut Drive',
+      city: 'Constanța',
+      profileImage: '🌟',
+      rating: 4.6
+    },
+    {
+      id: 13,
+      name: 'AutoWorks Central',
+      description: 'One-stop shop for all automotive needs including body work and paint services.',
+      streetAddress: '159 Poplar Road',
+      city: 'Brașov',
+      profileImage: '🎨',
+      rating: 4.7
+    },
+    {
+      id: 14,
+      name: 'Express Car Care',
+      description: 'Quick turnaround times without compromising quality or customer satisfaction.',
+      streetAddress: '357 Redwood Avenue',
+      city: 'Brașov',
+      profileImage: '⏱️',
+      rating: 4.6
+    },
+    {
+      id: 15,
+      name: 'Ultimate Auto Service',
+      description: 'Premium service center with certified technicians and lifetime warranty options.',
+      streetAddress: '486 Sycamore Boulevard',
+      city: 'Craiova',
+      profileImage: '🏆',
+      rating: 4.9
     }
   ];
 
-  selectService(service: Service) {
-    console.log('Selected service:', service);
-    // This will be connected to booking functionality later
+  /**
+   * Get unique cities from sellers list
+   */
+  get cities(): string[] {
+    const uniqueCities = [...new Set(this.sellers.map(s => s.city))];
+    return uniqueCities.sort();
+  }
+
+  /**
+   * Get filtered cities based on search input
+   */
+  get filteredCities(): string[] {
+    if (!this.searchCity) {
+      return this.cities;
+    }
+    return this.cities.filter(city =>
+      city.toLowerCase().startsWith(this.searchCity.toLowerCase())
+    );
+  }
+
+  /**
+   * Get filtered sellers based on selected city
+   */
+  get filteredSellers(): Seller[] {
+    if (!this.selectedCity) {
+      return this.sellers;
+    }
+    return this.sellers.filter(seller => seller.city === this.selectedCity);
+  }
+
+  /**
+   * Handle city selection from dropdown
+   */
+  selectCity(city: string): void {
+    this.selectedCity = city;
+    this.searchCity = city;
+    this.showDropdown = false;
+  }
+
+  /**
+   * Clear city filter
+   */
+  clearFilter(): void {
+    this.selectedCity = '';
+    this.searchCity = '';
+  }
+
+  /**
+   * Handle input focus
+   */
+  onInputFocus(): void {
+    this.showDropdown = true;
+  }
+
+  /**
+   * Handle input blur with delay to allow click on dropdown
+   */
+  onInputBlur(): void {
+    setTimeout(() => {
+      this.showDropdown = false;
+    }, 200);
+  }
+
+  /**
+   * Handle seller card click
+   */
+  selectedSeller: Seller | null = null;
+  isSellerModalOpen: boolean = false;
+
+  selectSeller(seller: Seller): void {
+    console.log('Selected seller:', seller);
+    this.selectedSeller = seller;
+    this.isSellerModalOpen = true;
+  }
+
+  closeSellerModal(): void {
+    this.isSellerModalOpen = false;
+    this.selectedSeller = null;
   }
 }
-
