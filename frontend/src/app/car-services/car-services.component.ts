@@ -230,8 +230,17 @@ export class CarServicesComponent {
   /**
    * Handle seller card click
    */
+  selectedSeller: Seller | null = null;
+  isSellerModalOpen: boolean = false;
+
   selectSeller(seller: Seller): void {
     console.log('Selected seller:', seller);
-    alert(`📍 ${seller.name}\n${seller.streetAddress}, ${seller.city}\n\n${seller.description}`);
+    this.selectedSeller = seller;
+    this.isSellerModalOpen = true;
+  }
+
+  closeSellerModal(): void {
+    this.isSellerModalOpen = false;
+    this.selectedSeller = null;
   }
 }
