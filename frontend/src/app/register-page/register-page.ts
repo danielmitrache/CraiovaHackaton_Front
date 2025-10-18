@@ -19,7 +19,8 @@ export class RegisterPageComponent {
   fullName = '';
   serviceName = '';
   serviceCUI = '';
-  location = '';
+  address = '';
+  city = '';
   email = '';
   password = '';
   confirmPassword = '';
@@ -94,7 +95,7 @@ export class RegisterPageComponent {
         return;
       }
     } else {
-      if (!this.serviceName || !this.serviceCUI || !this.location || !this.email || !this.password || !this.confirmPassword) {
+      if (!this.serviceName || !this.serviceCUI || !this.address || !this.city || !this.email || !this.password || !this.confirmPassword) {
         this.errorMessage = 'Please fill in all fields';
         return;
       }
@@ -139,7 +140,8 @@ export class RegisterPageComponent {
         : {
             serviceName: this.serviceName,
             serviceCUI: this.serviceCUI,
-            location: this.location
+            address: this.address,
+            city: this.city
           }
       )
     };
