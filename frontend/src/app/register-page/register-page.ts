@@ -54,6 +54,20 @@ export class RegisterPageComponent {
   }
 
   /**
+   * Toggle password visibility
+   */
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  /**
+   * Toggle confirm password visibility
+   */
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
+  /**
    * Get password strength label
    */
   getPasswordStrengthLabel(): string {
