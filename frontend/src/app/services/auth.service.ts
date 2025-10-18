@@ -57,7 +57,7 @@ export class AuthService {
         id: 'user-' + Date.now(),
         email: data.email,
         name: data.accountType === 'user' ? data.fullName! : data.serviceName!,
-        accountType: data.accountType as 'user' | 'service'
+        accountType: data.accountType
       }
     }).pipe(delay(1500)); // Simulate network delay
   }
