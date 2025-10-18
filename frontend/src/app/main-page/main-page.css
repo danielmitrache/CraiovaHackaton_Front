@@ -74,9 +74,17 @@
   gap: var(--space-sm);
 }
 
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
 /* Navigation Buttons */
 .icon-btn,
-.user-btn {
+.user-btn,
+.btn-login,
+.btn-register {
   background: transparent;
   border-radius: var(--radius-md);
   border: var(--border-subtle);
@@ -104,6 +112,50 @@
 .icon-btn .icon {
   font-size: var(--font-lg);
   font-weight: var(--font-bold);
+}
+
+.btn-login {
+  padding: 8px 16px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light));
+  border-color: var(--color-accent);
+  color: var(--color-dark);
+  font-weight: var(--font-semibold);
+  box-shadow: 0 2px 8px rgba(148, 137, 121, 0.3);
+}
+
+.btn-login:hover {
+  background: linear-gradient(90deg, var(--color-accent-light), var(--color-light));
+  box-shadow: 0 4px 12px rgba(148, 137, 121, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-login svg {
+  color: var(--color-dark);
+  opacity: 0.9;
+}
+
+.login-text,
+.register-text {
+  font-weight: var(--font-semibold);
+}
+
+.btn-register {
+  padding: 8px 16px;
+  background: transparent;
+  border-color: var(--color-accent);
+  color: var(--color-light);
+  font-weight: var(--font-semibold);
+}
+
+.btn-register:hover {
+  background: rgba(148, 137, 121, 0.2);
+  border-color: var(--color-accent-light);
+  box-shadow: 0 4px 12px rgba(148, 137, 121, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-register svg {
+  color: var(--color-accent);
 }
 
 .user-btn {

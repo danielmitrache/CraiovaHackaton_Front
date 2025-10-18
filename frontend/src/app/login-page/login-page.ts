@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { ToastService } from '../services/toast.service';
+import { LoggerService } from '../services/logger.service';
 
 @Component({
   selector: 'app-login-page',
@@ -18,7 +21,12 @@ export class LoginPageComponent {
   isLoading = false;
   errorMessage = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private toastService: ToastService,
+    private logger: LoggerService
+  ) {}
 
   /**
    * Toggle password visibility
@@ -45,19 +53,45 @@ export class LoginPageComponent {
     }
 
     this.isLoading = true;
+    this.logger.info('Login attempt started', { email: this.email });
 
-    // TODO: Implement actual authentication logic
-    setTimeout(() => {
-      this.isLoading = false;
-      console.log('Login attempt:', {
-        email: this.email,
-        keepSignedIn: this.keepSignedIn
-      });
+    // Call authentication service
+    this.authService.login({
+      email: this.email,
+      password: this.password,
+      keepSignedIn: this.keepSignedIn
+    }).subscribe({
+      next: (response) => {
+        this.isLoading = false;
 
-      // Simulate successful login
-      alert('🎉 Welcome back! Your car misses you.');
-      this.router.navigate(['/main-page']);
-    }, 1500);
+        if (response.success) {
+          this.logger.info('Login successful', { email: this.email });
+
+          // Store authentication token
+          if (response.token) {
+            this.authService.storeToken(response.token);
+          }
+
+          // Show success toast
+          this.toastService.success(response.message);
+
+          // Navigate to main page
+          setTimeout(() => {
+            this.router.navigate(['/main-page']);
+          }, 500);
+        } else {
+          this.errorMessage = response.message || 'Login failed';
+          this.toastService.error(this.errorMessage);
+          this.logger.warn('Login failed', { reason: response.message });
+        }
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.errorMessage = 'Login failed. Please check your credentials.';
+        this.toastService.error(this.errorMessage);
+        this.logger.error('Login error', error);
+      }
+    });
   }
 
   /**
@@ -72,16 +106,16 @@ export class LoginPageComponent {
    * Navigate to sign up page
    */
   onSignUp(): void {
-    console.log('Navigate to sign up');
-    alert('🚗 Sign up page coming soon!');
+    this.logger.debug('Navigate to sign up');
+    this.router.navigate(['/register']);
   }
 
   /**
    * Navigate to forgot password page
    */
   onForgotPassword(): void {
-    console.log('Navigate to forgot password');
-    alert('🔑 Password recovery coming soon!');
+    this.logger.debug('Forgot password clicked');
+    this.toastService.info('Password recovery feature coming soon!');
   }
 
   /**
@@ -91,4 +125,3 @@ export class LoginPageComponent {
     this.router.navigate(['/main-page']);
   }
 }
-
