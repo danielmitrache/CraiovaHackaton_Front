@@ -1,7 +1,7 @@
 <div class="garage-container">
   <div class="garage-header">
-    <h1>View Garage Availability</h1>
-    <p>Select your appointment dates</p>
+    <h1>Garage Appointments</h1>
+    <p>Select a date and time for your appointment</p>
   </div>
 
   <div class="calendar-wrapper">
@@ -33,8 +33,8 @@
           [class.other-month]="!calendarDay.isCurrentMonth"
           [class.occupied]="calendarDay.isOccupied"
           [class.selected]="calendarDay.isSelected"
-          [class.in-range]="calendarDay.isInRange"
-          [class.disabled]="calendarDay.isOccupied"
+          [class.past-date]="calendarDay.isPastDate"
+          [class.disabled]="calendarDay.isOccupied || calendarDay.isPastDate"
           (click)="selectDay(calendarDay)">
           {{ calendarDay.day }}
         </div>
@@ -45,7 +45,7 @@
     <div class="legend">
       <div class="legend-item">
         <span class="legend-color occupied-color"></span>
-        <span>Occupied</span>
+        <span>Fully Booked</span>
       </div>
       <div class="legend-item">
         <span class="legend-color free-color"></span>
@@ -53,35 +53,39 @@
       </div>
       <div class="legend-item">
         <span class="legend-color selected-color"></span>
-        <span>Selected Range</span>
+        <span>Selected</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color past-color"></span>
+        <span>Past Date</span>
       </div>
     </div>
 
-    <!-- Appointment Details -->
-    <div class="appointment-details">
-      <div class="detail-row">
-        <label for="numberDays">Number of Days:</label>
-        <input
-          type="number"
-          id="numberDays"
-          [(ngModel)]="numberDays"
-          (change)="onNumberDaysChange()"
-          min="1"
-          max="30">
+    <!-- Time Slot Selection -->
+    <div class="time-slots-section" *ngIf="selectedDate">
+      <h3>Available Time Slots for {{ selectedDate | date:'fullDate' }}</h3>
+      <div class="time-slots-grid">
+        <div
+          *ngFor="let slot of timeSlots"
+          class="time-slot"
+          [class.occupied]="slot.isOccupied"
+          [class.selected]="selectedHour === slot.hour"
+          [class.disabled]="slot.isOccupied"
+          (click)="selectTimeSlot(slot)">
+          <span class="time-text">{{ slot.displayTime }}</span>
+          <span class="status-badge" *ngIf="slot.isOccupied">Booked</span>
+        </div>
       </div>
+    </div>
 
-      <div class="detail-row" *ngIf="selectedStartDate">
-        <label>Selected Date:</label>
-        <span class="selected-info">{{ selectedStartDate | date:'fullDate' }}</span>
-      </div>
-
+    <!-- Make Appointment Button -->
+    <div class="appointment-actions" *ngIf="selectedDate">
       <button
         class="confirm-button"
-        (click)="confirmAppointment()"
-        [disabled]="!selectedStartDate">
-        Confirm Appointment
+        (click)="makeAppointment()"
+        [disabled]="!canMakeAppointment()">
+        Make Appointment
       </button>
     </div>
   </div>
 </div>
-

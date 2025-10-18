@@ -8,7 +8,13 @@ interface CalendarDay {
   isCurrentMonth: boolean;
   isOccupied: boolean;
   isSelected: boolean;
-  isInRange: boolean;
+  isPastDate: boolean;
+}
+
+interface TimeSlot {
+  hour: number;
+  displayTime: string;
+  isOccupied: boolean;
 }
 
 @Component({
@@ -21,18 +27,20 @@ interface CalendarDay {
 export class GarageComponent {
   currentMonth: number = new Date().getMonth();
   currentYear: number = new Date().getFullYear();
-  selectedStartDate: Date | null = null;
-  numberDays: number = 1;
+  selectedDate: Date | null = null;
+  selectedHour: number | null = null;
+  today: Date = new Date();
 
   calendarDays: CalendarDay[] = [];
+  timeSlots: TimeSlot[] = [];
 
-  // Mock occupied dates - replace with API call
-  occupiedDates: Date[] = [
-    new Date(2024, 0, 5),
-    new Date(2024, 0, 6),
-    new Date(2024, 0, 12),
-    new Date(2024, 0, 20),
-    new Date(2024, 0, 21),
+  // Mock occupied appointments - replace with API call
+  // Format: { date: 'YYYY-MM-DD', hours: [9, 10, 14] }
+  occupiedAppointments: { date: string; hours: number[] }[] = [
+    { date: '2025-10-20', hours: [9, 10, 14] },
+    { date: '2025-10-21', hours: [11, 13, 15] },
+    { date: '2025-10-22', hours: [9, 10, 11, 12, 13, 14, 15, 16, 17] }, // Fully booked day
+    { date: '2025-10-25', hours: [16, 17] },
   ];
 
   months = [
@@ -63,20 +71,23 @@ export class GarageComponent {
         isCurrentMonth: false,
         isOccupied: false,
         isSelected: false,
-        isInRange: false
+        isPastDate: true
       });
     }
 
     // Current month days
     for (let day = 1; day <= totalDays; day++) {
       const date = new Date(this.currentYear, this.currentMonth, day);
+      const isPast = this.isPastDate(date);
+      const isFullyBooked = this.isDateFullyBooked(date);
+
       this.calendarDays.push({
         date,
         day,
         isCurrentMonth: true,
-        isOccupied: this.isDateOccupied(date),
+        isOccupied: isFullyBooked,
         isSelected: this.isDateSelected(date),
-        isInRange: this.isDateInRange(date)
+        isPastDate: isPast
       });
     }
 
@@ -90,54 +101,79 @@ export class GarageComponent {
         isCurrentMonth: false,
         isOccupied: false,
         isSelected: false,
-        isInRange: false
+        isPastDate: false
       });
     }
   }
 
-  isDateOccupied(date: Date): boolean {
-    return this.occupiedDates.some(occupiedDate =>
-      occupiedDate.getDate() === date.getDate() &&
-      occupiedDate.getMonth() === date.getMonth() &&
-      occupiedDate.getFullYear() === date.getFullYear()
-    );
+  isPastDate(date: Date): boolean {
+    const compareDate = new Date(date);
+    compareDate.setHours(0, 0, 0, 0);
+    const todayDate = new Date(this.today);
+    todayDate.setHours(0, 0, 0, 0);
+    return compareDate < todayDate;
+  }
+
+  isDateFullyBooked(date: Date): boolean {
+    const dateString = this.formatDateString(date);
+    const appointment = this.occupiedAppointments.find(app => app.date === dateString);
+    // A day is fully booked if all hours (9-17) are occupied
+    return appointment ? appointment.hours.length >= 9 : false;
   }
 
   isDateSelected(date: Date): boolean {
-    if (!this.selectedStartDate) return false;
-    return date.getTime() === this.selectedStartDate.getTime();
+    if (!this.selectedDate) return false;
+    return date.getDate() === this.selectedDate.getDate() &&
+           date.getMonth() === this.selectedDate.getMonth() &&
+           date.getFullYear() === this.selectedDate.getFullYear();
   }
 
-  isDateInRange(date: Date): boolean {
-    if (!this.selectedStartDate) return false;
-    const endDate = new Date(this.selectedStartDate);
-    endDate.setDate(endDate.getDate() + this.numberDays - 1);
-    return date >= this.selectedStartDate && date <= endDate;
+  formatDateString(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   selectDay(calendarDay: CalendarDay) {
-    if (!calendarDay.isCurrentMonth || calendarDay.isOccupied) return;
+    if (!calendarDay.isCurrentMonth || calendarDay.isPastDate) return;
 
-    // Check if any day in the range is occupied
-    const isRangeValid = this.checkRangeAvailability(calendarDay.date);
-    if (!isRangeValid) {
-      alert('Selected range contains occupied days. Please choose another date.');
-      return;
-    }
-
-    this.selectedStartDate = calendarDay.date;
+    this.selectedDate = calendarDay.date;
+    this.selectedHour = null;
+    this.generateTimeSlots();
     this.generateCalendar();
   }
 
-  checkRangeAvailability(startDate: Date): boolean {
-    for (let i = 0; i < this.numberDays; i++) {
-      const checkDate = new Date(startDate);
-      checkDate.setDate(checkDate.getDate() + i);
-      if (this.isDateOccupied(checkDate)) {
-        return false;
-      }
+  generateTimeSlots() {
+    this.timeSlots = [];
+    if (!this.selectedDate) return;
+
+    const dateString = this.formatDateString(this.selectedDate);
+    const appointment = this.occupiedAppointments.find(app => app.date === dateString);
+    const occupiedHours = appointment ? appointment.hours : [];
+
+    // Generate slots from 9 AM to 5 PM (9:00 to 17:00)
+    for (let hour = 9; hour <= 17; hour++) {
+      const isOccupied = occupiedHours.includes(hour);
+      const displayTime = this.formatTimeDisplay(hour);
+
+      this.timeSlots.push({
+        hour,
+        displayTime,
+        isOccupied
+      });
     }
-    return true;
+  }
+
+  formatTimeDisplay(hour: number): string {
+    if (hour === 12) return '12:00 PM';
+    if (hour < 12) return `${hour}:00 AM`;
+    return `${hour - 12}:00 PM`;
+  }
+
+  selectTimeSlot(slot: TimeSlot) {
+    if (slot.isOccupied) return;
+    this.selectedHour = slot.hour;
   }
 
   previousMonth() {
@@ -160,28 +196,32 @@ export class GarageComponent {
     this.generateCalendar();
   }
 
-  onNumberDaysChange() {
-    if (this.numberDays < 1) this.numberDays = 1;
-    this.generateCalendar();
-  }
-
-  confirmAppointment() {
-    if (!this.selectedStartDate) {
-      alert('Please select a start date.');
+  makeAppointment() {
+    if (!this.selectedDate || this.selectedHour === null) {
+      alert('Please select a date and time slot.');
       return;
     }
 
-    const endDate = new Date(this.selectedStartDate);
-    endDate.setDate(endDate.getDate() + this.numberDays - 1);
+    const appointmentDate = new Date(this.selectedDate);
+    appointmentDate.setHours(this.selectedHour, 0, 0, 0);
 
-    console.log('Appointment confirmed:', {
-      startDate: this.selectedStartDate,
-      endDate: endDate,
-      numberOfDays: this.numberDays
+    console.log('Appointment requested:', {
+      date: this.selectedDate,
+      hour: this.selectedHour,
+      dateTime: appointmentDate
     });
 
     // TODO: Send to backend API
-    alert(`Appointment confirmed from ${this.selectedStartDate.toLocaleDateString()} for ${this.numberDays} day(s)`);
+    alert(`Appointment confirmed for ${this.selectedDate.toLocaleDateString()} at ${this.formatTimeDisplay(this.selectedHour)}`);
+
+    // Reset selection
+    this.selectedDate = null;
+    this.selectedHour = null;
+    this.timeSlots = [];
+    this.generateCalendar();
+  }
+
+  canMakeAppointment(): boolean {
+    return this.selectedDate !== null && this.selectedHour !== null;
   }
 }
-
